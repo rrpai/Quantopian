@@ -1,0 +1,95 @@
+[ scheduling ]
+- Default handle_data runs every minute
+- Schedule a function to run periodically
+schedule_function
+
+[ open orders ]
+
+- to avoid over ordering
+
+open_orders = get_open_orders()
+if context.security not in open_orders:
+  order_target_percent(context.security, 1.0)
+
+[ slippage and commission ]
+- this is already set to sensible default values in quantopian
+--------------------------------------------------------------------------------------------------------
+[ Pandas ]
+
+axis = 0 
+ computation along rows for a particular column
+ 
+axis = 1
+ computation along columns for a particular row
+
+eg  
+df.mean(axis=0) 
+  Mean for all elements in a column 
+  
+Index  
+- no element can be nan
+- df.index holds the index
+- can change it by assigning to a Series
+
+- boolean indexing, can be used to filter
+eg
+titles[titles.year > 1950]
+--------------------------------------------------------------------------------------------------------
+Statistics
+
+Mean - sum / len
+
+Median - sort and find middle/ average of 2 middle numbers
+
+Mode - that item which occurs most
+
+Histogram
+- For float data mode as a number does not make much sense as values may not repeat
+- so histogram is useful which puts items in a bin
+- a bin is a equi sized range
+
+plt.hist(df['price'], bins=20)
+
+
+Scatter plot
+- show how one variable stands with other
+- eg scatter plot stock prices of spy and tesla 
+--------------------------------------------------------------------------------------------------------
+Beta Hedging
+
+returnsTesla =  alpha + beta * returnsSpy
+
+- we find alpha and beta using linear regression
+- then we go long x of tesla in portfolio, and go short -beta * x
+- we get alpha uncorrelated to market direction
+- alpha may look small, but can be increased using leverage. It is also uncorrelated to market which makes it attractive
+--------------------------------------------------------------------------------------------------------
+Sharpe Ratio
+
+- risk adjusted returns
+
+s =  (returns - riskFreeRate) / volatility
+
+- high sharpe ratio is better
+
+- by leverage, you can increase returns. The sharpe ratio will remain same.
+--------------------------------------------------------------------------------------------------------
+Cointegration 
+
+- 2 time series are cointegrated if  spread between them is stationary around its mean
+- cointegration is different from correlation
+
+correlated but not cointegrated
+- 2 diverging series can be correlated, but they are not cointegrated
+
+cointegrated but not correlated
+- see eg.
+- A big wave and a small wave like series es 
+--------------------------------------------------------------------------------------------------------
+Overfitting
+
+- real-world processes generally do not follow high-degree polynomial curves
+
+- so even though such functions may overfit data , we should not use them
+
+ 
