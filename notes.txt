@@ -92,4 +92,132 @@ Overfitting
 
 - so even though such functions may overfit data , we should not use them
 
+--------------------------------------------------------------------------------------------------------
+Pipeline API
+
+- Selecting assets based on filtering rules
+- Ranking assets based on a scoring function
+- Calculating portfolio allocations
+
+
+make_pipeline()
+- return a Pipeline metadata object which has the set of stocks and the factors we want to consider
+- the final dataset is not constructed yet
+
+run_pipeline
+- execute the pipeline factors on the given set of stocks, over a given period
+- returns a pandas dataframe which is indexed by  [ date, asset ] and the columns are values for [factor1, factor2 ...]
+- this is done while researching
+
+
+- in algorithm it is attached using
+attach_pipeline(myPipeLine, 'my_pipe_line')
+- Also in algorithm running, date will not be there in resulting frame. Date will be implied as current day.
  
+ 
+[ Factors ] 
+
+factor = func(asset, timestamp)
+- gives a number which maps a security and a timestamp/time window 
+eg SimpleMovingAverage(asset, window)
+
+BuiltinFactors
+- there are many builtin factors like
+eg
+VWAP - volume weighted average price
+
+- Combining Factors
+percentDifference = (meanClose10 - meanClose30)/ meanClose10
+
+
+[ Filters ]
+
+- returns boolean Series for a asset
+booleanVal = func(asset, timestamp) 
+
+eg
+highDollarVolume = dollarVol30 > 10,000,000
+
+- Used for screening
+pipleLine = Pipeline( columns = { 'percentDifference' : percentDifference } ,   screen=highDollarVolume );
+
+- Inverting filter
+filter2 = ~filter1
+
+- Combining filters
+we can use  &, |
+
+
+highDollarVolume = dollarVol30.percentile_between(90,100)
+priceAbove20 = latestClose > 20
+
+isTradeable = highDollarVolume & priceAbove20
+
+
+Masking
+- even before computing pipeline using filters, we want to filter at *factor level* itself.
+- Masks are used for that
+
+mean_close_10 = SimpleMovingAverage(
+    inputs=[USEquityPricing.close],
+    window_length=10,
+    mask=high_dollar_volume
+)
+
+
+Classifiers
+
+val = func(asset, timestamp)
+
+val is a int or String .
+eg  exchange id of a security
+exchange = Fundamentals.exchange_id.latest
+
+Quantiles
+- this Factor method give a classifier 
+- returns [0, bins-1]
+- aliases
+quartiles (4), quintiles(5), deciles(10)
+
+dollarDeciles = dollarVol30.deciles();
+topDecile = dollarDeciles.eq(9)
+ 
+
+ 
+Dataset
+
+- each dataset has a BoundColumn 
+- the type  (dtype) determines, what it is as below
+ 
+ 
+- note that 
+Factor - float
+Filter - boolean
+Classifier - String, int 
+
+Partner Data
+- available as datasets in quantopian.pipeline.data
+
+
+CustomFactor
+
+# implement
+def compute(self, today, asset_ids, out, *inputs):
+
+class StdDev(CustomFactor):
+    def compute(self, today, asset_ids, out, values):
+        # Calculates the column-wise standard deviation, ignoring NaNs
+        out[:] = numpy.nanstd(values, axis=0)
+               
+        
+class TenDayMeanDifference(CustomFactor):
+    # Default inputs.
+    inputs = [USEquityPricing.close, USEquityPricing.open]
+    window_length = 10
+    # *inputs = close, open
+    def compute(self, today, asset_ids, out, close, open):
+        # Calculates the column-wise mean difference, ignoring NaNs
+        out[:] = numpy.nanmean(close - open, axis=0)        
+        
+        
+        
