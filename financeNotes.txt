@@ -1,0 +1,152 @@
+financeNotes.txt
+Long ago
+Jul 9, 2017
+You edited an item
+Text
+financeNotes.txt
+Jul 5, 2017
+You renamed an item
+Text
+financeNotes.txt
+Previous name:
+notes
+Jul 5, 2017
+You edited an item
+Text
+notes
+Jul 5, 2017
+Anyfile Notepad
+You uploaded an item
+Text
+notes
+
+[ Futures market ]
+
+- is a zero sum game
+
+[ Futures pricing ]
+
+- future price mimics underlying stock spot price
+
+- but they are not same 
+
+Future Price = Spot Price * (1 + R (x/365) - D)
+
+R = risk free rate. eg Treasury bill annual rate
+x = number of days for expiry
+D - dividend expected if any
+
+This is because
+- in futures there is no need to spend money while buying and can instead be put in 
+safe treasury bills for interest. In spot market buying, money is spent
+- like wise in spot market we get dividend when holding shares. In futures we dont, hence subtracted
+
+- in practice some minor difference will be there to account for transaction charge, any tax etc
+
+- With more number of days to expiry , the difference widens and narrows near expiry
+
+- Cost of Carry = R(x/365)
+
+Premium / Contango - when futures is trading at a price more than spot
+Discount - when futures is trading at a price less than spot
+
+The prices will always converge as same on expiry date 
+
+
+[ Spread ]
+
+- Buy cheaper asset and sell expensive asset
+eg if future is trading more than fair value
+
+Sell future at that price
+But stock at spot price
+On expiry prices will converge. 
+The above trade will make profit no matter where market moves
+
+
+[ Beta ]
+
+- Correlation of a stock wrt index
+- It can be +ve / -ve
+- eg If beta of ITC is 1.2, it means
+- when nifty goes up by 1% ITC moves up by 1.2%
+
+- calculated using slope function in excel
+
+p[i] = list of closing  prices for say 6 months
+daily return r[i] = ( p[i] - p[i-1] ) / p[i-1]
+x[i] = daily return of nifty
+y[i] = daily return of stock
+
+beta = slope(y[i], x[i])
+
+
+Portfolio beta  = weighted average of beta across stocks in portfolio
+
+weight w[i] = value of stock s[i] / total portfolio value
+
+Portfolio Beta =  Sum(w[i] * b[i])
+
+[ Hedging ]
+
+- you can hedge a stock position in spot market, by buying futures in opposite direction
+- irrespective of market direction, you will have a no profit - no loss situation
+- note - it also means even if market moves up, you will have a net gain of zero
+
+Portfolio hedging with index futures
+Hedge value = index futures *  portfolio beta
+- hedge this amount in futures market , in opposite direction 
+- ie short it, in case of long only portfolio 
+
+[ Open Interest ]
+
+- the total number of contracts outstanding
+
+-----------------------------------------------------------------------
+[ Options ]
+
+- you can exercise options only on the day of expiry and not before that
+- In India it is last thursday of current month, next month, and the one after that
+- option premium will vary based on time to expiry and risk perception
+
+- there is no margin requirement for call option buyer. As he only pays premium.
+- but the option writer need to put up margin, as he bears unlimited risk
+
+Call options - right to buy option at a certain price
+Put option - right to sell option at a certain price
+Option writing - sell option
+
+- buyer of call option makes profit only if stock spot price increases above premium hurdle 
+
+[European options / American options]
+
+- CE - European Call option
+can only exercise on expiry day based on spot price
+
+- American options
+can exercise any day
+so is more risky for option writer and hence premiums are higher
+
+- In india now it is only European options available
+
+
+- If outlook is bullish , you can buy call option or sell put option
+- Which one to choose depends on how attractive the premiums are
+
+[ Options premium trading ] 
+
+- *Most of the option trading is based on the change in premiums*
+ie instead of waiting for expiry , we can trade options if it now commands higher premium than we paid
+- Generally speaking option sellers tend to hold contracts till expiry rather than option buyers. 
+- This is because if you have written an option for Rs.8/- you will enjoy the full premium received i.e. Rs.8/- only on expiry.
+
+
+- Option strategies
+Buying a Call Option
+Selling a Call Option
+Buying a Put Option
+Selling a Put Option
+
+[ Links ]
+------------------------------------------- 
+https://zerodha.com/varsity/
